@@ -5,15 +5,16 @@ import com.example.devmarkrukotlin.entity.Country
 import com.example.devmarkrukotlin.repository.CountryRepository
 import com.example.devmarkrukotlin.service.CountryService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 
 @Service
 class CountryServiceImpl @Autowired constructor(
     private val countryRepository: CountryRepository
 ) : CountryService {
-    override fun getAll(): List<CountryDto> {
+    override fun getAll(pageIndex: Int): List<CountryDto> {
         return countryRepository
-            .findAll()
+            .findAllByOrderByName(PageRequest.of(pageIndex, 2))
             .map { it.toDto() }
     }
 
