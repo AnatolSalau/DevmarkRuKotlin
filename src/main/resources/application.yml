@@ -7,15 +7,19 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         globally_quoted_identifiers: true
         show_sql: true
         format_sql: true
+    defer-datasource-initialization: true
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/postgres
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: sA#259979148307
+  sql:
+    init:
+      mode: always
 

@@ -1,16 +1,27 @@
 package com.example.devmarkrukotlin.service.impl
 
 import com.example.devmarkrukotlin.dto.CountryDto
+import com.example.devmarkrukotlin.entity.Country
+import com.example.devmarkrukotlin.repository.CountryRepository
 import com.example.devmarkrukotlin.service.CountryService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 @Service
-class CountryServiceImpl : CountryService {
+class CountryServiceImpl @Autowired constructor(
+    private val countryRepository: CountryRepository
+) : CountryService {
     override fun getAll(): List<CountryDto> {
-        return listOf(
-            CountryDto(1, "Germany", 3_000_000),
-            CountryDto(1, "France", 2_000_000),
-            CountryDto(1, "Italy", 1_000_000)
-        )
+        return countryRepository
+            .findAll()
+            .map { it.toDto() }
     }
+
+    private fun Country.toDto() : CountryDto =
+        CountryDto(
+            id = this.id,
+            name = this.name,
+            population = this.population
+        )
+
 }
